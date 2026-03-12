@@ -1,0 +1,129 @@
+{
+    "c2array": true,
+    "size": [
+        7,
+        5,
+        1
+    ],
+    "data": [
+        [
+            [
+                ""
+            ],
+            [
+                "This is array text"
+            ],
+            [
+                "Your name is [tn]"
+            ],
+            [
+                "Now I will ask you something"
+            ],
+            [
+                "If you wanted to continue would you go to red or blue door?"
+            ]
+        ],
+        [
+            [
+                ""
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ]
+        ],
+        [
+            [
+                "Sprite Anim"
+            ],
+            [
+                "[in]"
+            ],
+            [
+                "[jump2]#1"
+            ],
+            [
+                ""
+            ],
+            [
+                "[out]"
+            ]
+        ],
+        [
+            [
+                "BG"
+            ],
+            [
+                "Star"
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ]
+        ],
+        [
+            [
+                "BG Anim"
+            ],
+            [
+                "[fadein][dotout]"
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ]
+        ],
+        [
+            [
+                "Music"
+            ],
+            [
+                "[play]NotAllowed"
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ]
+        ],
+        [
+            [
+                "Music Anim"
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ],
+            [
+                ""
+            ]
+        ]
+    ]
+}
