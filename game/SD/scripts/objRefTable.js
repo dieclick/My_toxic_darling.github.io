@@ -39,6 +39,7 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.System.Acts.SetLayerVisible,
 		C3.Plugins.System.Acts.SetLayerInteractive,
 		C3.Plugins.System.Cnds.LayerInteractive,
+		C3.Plugins.Browser.Acts.Reload,
 		C3.Plugins.System.Acts.SaveState,
 		C3.Plugins.System.Acts.LoadState,
 		C3.Plugins.Spritefont2.Acts.SetScale,

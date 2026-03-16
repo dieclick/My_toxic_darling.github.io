@@ -1306,10 +1306,10 @@ self["C3_Shaders"]["polkadot"] = {
 	animated: false,
 	parameters: [["dotSize",0,"percent"],["dotScale",0,"percent"]]
 };
-self["C3_Shaders"]["pixellate"] = {
-	glsl: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump vec2 srcOriginStart;\nuniform mediump vec2 srcOriginEnd;\nuniform mediump vec2 pixelSize;\nuniform mediump float tilesize;\nvoid main(void)\n{\nmediump vec2 tile = pixelSize * tilesize;\nmediump vec2 halftile = tile / 2.0;\nmediump vec2 tex = floor(vTex / tile) * tile + halftile;\ntex = clamp(tex, min(srcOriginStart, srcOriginEnd), max(srcOriginStart, srcOriginEnd));\ngl_FragColor = texture2D(samplerFront, tex);\n}",
-	glslWebGL2: "#version 300 es\nin mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nout lowp vec4 outColor;\nuniform mediump vec2 srcOriginStart;\nuniform mediump vec2 srcOriginEnd;\nuniform mediump vec2 pixelSize;\nuniform mediump float tilesize;\nvoid main(void)\n{\nmediump vec2 tile = pixelSize * tilesize;\nmediump vec2 halftile = tile / 2.0;\nmediump vec2 tex = floor(vTex / tile) * tile + halftile;\ntex = clamp(tex, min(srcOriginStart, srcOriginEnd), max(srcOriginStart, srcOriginEnd));\noutColor = textureGrad(samplerFront, tex, dFdx(vTex), dFdy(vTex));\n}",
-	wgsl: "%%SAMPLERFRONT_BINDING%% var samplerFront : sampler;\n%%TEXTUREFRONT_BINDING%% var textureFront : texture_2d<f32>;\nstruct ShaderParams {\ntilesize : f32\n};\n%%SHADERPARAMS_BINDING%% var<uniform> shaderParams : ShaderParams;\n%%C3PARAMS_STRUCT%%\n%%FRAGMENTINPUT_STRUCT%%\n%%FRAGMENTOUTPUT_STRUCT%%\n@fragment\nfn main(input : FragmentInput) -> FragmentOutput\n{\nvar tile : vec2<f32> = vec2<f32>(shaderParams.tilesize) / vec2<f32>(textureDimensions(textureFront));\nvar halftile : vec2<f32> = tile / 2.0;\nvar tex : vec2<f32> = floor(input.fragUV / tile) * tile + halftile;\ntex = c3_clampToSrcOrigin(tex);\nvar output : FragmentOutput;\noutput.color = textureSampleGrad(textureFront, samplerFront, tex, dpdx(input.fragUV), dpdy(input.fragUV));\nreturn output;\n}",
+self["C3_Shaders"]["hexpixellate"] = {
+	glsl: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump vec2 srcStart;\nuniform mediump vec2 srcEnd;\nprecision mediump float;\nuniform mediump vec2 pixelSize;\nuniform mediump float scale;\nvoid main()\n{\nvec2 texSize = 1.0 / pixelSize;\nvec2 tex = (vTex * texSize - vec2(0.5, 0.5)) / scale;\ntex.y /= 0.866025404;\ntex.x -= tex.y * 0.5;\nvec2 a;\nif (tex.x + tex.y - floor(tex.x) - floor(tex.y) < 1.0)\na = vec2(floor(tex.x), floor(tex.y));\nelse\na = vec2(ceil(tex.x), ceil(tex.y));\nvec2 b = vec2(ceil(tex.x), floor(tex.y));\nvec2 c = vec2(floor(tex.x), ceil(tex.y));\nvec3 tex2 = vec3(tex.x, tex.y, 1.0 - tex.x - tex.y);\nvec3 a2 = vec3(a.x, a.y, 1.0 - a.x - a.y);\nvec3 b2 = vec3(b.x, b.y, 1.0 - b.x - b.y);\nvec3 c2 = vec3(c.x, c.y, 1.0 - c.x - c.y);\nfloat alen = length(tex2 - a2);\nfloat blen = length(tex2 - b2);\nfloat clen = length(tex2 - c2);\nvec2 choice;\nif (alen < blen)\n{\nif (alen < clen)\nchoice = a;\nelse\nchoice = c;\n}\nelse\n{\nif (blen < clen)\nchoice = b;\nelse\nchoice = c;\n}\nchoice.x += choice.y * 0.5;\nchoice.y *= 0.866025404;\nchoice *= scale / texSize;\nchoice += vec2(0.5, 0.5) / texSize;\nchoice = clamp(choice, min(srcStart, srcEnd), max(srcStart, srcEnd));\ngl_FragColor = texture2D(samplerFront, choice);\n}",
+	glslWebGL2: "#version 300 es\nin mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nout lowp vec4 outColor;\nuniform mediump vec2 srcStart;\nuniform mediump vec2 srcEnd;\nprecision mediump float;\nuniform mediump vec2 pixelSize;\nuniform mediump float scale;\nvoid main()\n{\nvec2 texSize = 1.0 / pixelSize;\nvec2 tex = (vTex * texSize - vec2(0.5, 0.5)) / scale;\ntex.y /= 0.866025404;\ntex.x -= tex.y * 0.5;\nvec2 a;\nif (tex.x + tex.y - floor(tex.x) - floor(tex.y) < 1.0)\na = vec2(floor(tex.x), floor(tex.y));\nelse\na = vec2(ceil(tex.x), ceil(tex.y));\nvec2 b = vec2(ceil(tex.x), floor(tex.y));\nvec2 c = vec2(floor(tex.x), ceil(tex.y));\nvec3 tex2 = vec3(tex.x, tex.y, 1.0 - tex.x - tex.y);\nvec3 a2 = vec3(a.x, a.y, 1.0 - a.x - a.y);\nvec3 b2 = vec3(b.x, b.y, 1.0 - b.x - b.y);\nvec3 c2 = vec3(c.x, c.y, 1.0 - c.x - c.y);\nfloat alen = length(tex2 - a2);\nfloat blen = length(tex2 - b2);\nfloat clen = length(tex2 - c2);\nvec2 choice;\nif (alen < blen)\n{\nif (alen < clen)\nchoice = a;\nelse\nchoice = c;\n}\nelse\n{\nif (blen < clen)\nchoice = b;\nelse\nchoice = c;\n}\nchoice.x += choice.y * 0.5;\nchoice.y *= 0.866025404;\nchoice *= scale / texSize;\nchoice += vec2(0.5, 0.5) / texSize;\nchoice = clamp(choice, min(srcStart, srcEnd), max(srcStart, srcEnd));\noutColor = textureGrad(samplerFront, choice, dFdx(vTex), dFdy(vTex));\n}",
+	wgsl: "%%SAMPLERFRONT_BINDING%% var samplerFront : sampler;\n%%TEXTUREFRONT_BINDING%% var textureFront : texture_2d<f32>;\nstruct ShaderParams {\nscale : f32\n};\n%%SHADERPARAMS_BINDING%% var<uniform> shaderParams : ShaderParams;\n%%C3PARAMS_STRUCT%%\n%%FRAGMENTINPUT_STRUCT%%\n%%FRAGMENTOUTPUT_STRUCT%%\n@fragment\nfn main(input : FragmentInput) -> FragmentOutput\n{\nvar texSize : vec2<f32> = vec2<f32>(textureDimensions(textureFront));\nvar tex : vec2<f32> = (input.fragUV * texSize - 0.5) / shaderParams.scale;\ntex.y = tex.y / 0.866025404;\ntex.x = tex.x - tex.y * 0.5;\nvar a : vec2<f32> = select(\nvec2<f32>(ceil(tex.x), ceil(tex.y)),\nvec2<f32>(floor(tex.x), floor(tex.y)),\ntex.x + tex.y - floor(tex.x) - floor(tex.y) < 1.0\n);\nvar b : vec2<f32> = vec2<f32>(ceil(tex.x), floor(tex.y));\nvar c : vec2<f32> = vec2<f32>(floor(tex.x), ceil(tex.y));\nvar tex2 : vec3<f32> = vec3<f32>(tex.x, tex.y, 1.0 - tex.x - tex.y);\nvar a2 : vec3<f32> = vec3<f32>(a.x, a.y, 1.0 - a.x - a.y);\nvar b2 : vec3<f32> = vec3<f32>(b.x, b.y, 1.0 - b.x - b.y);\nvar c2 : vec3<f32> = vec3<f32>(c.x, c.y, 1.0 - c.x - c.y);\nvar alen : f32 = length(tex2 - a2);\nvar blen : f32 = length(tex2 - b2);\nvar clen : f32 = length(tex2 - c2);\nvar choice : vec2<f32> = select(\nselect(c, b, blen < clen),\nselect(c, a, alen < clen),\nalen < blen\n);\nchoice.x = choice.x + choice.y * 0.5;\nchoice.y = choice.y * 0.866025404;\nchoice = choice * shaderParams.scale / texSize;\nchoice = choice + vec2<f32>(0.5) / texSize;\nchoice = c3_clampToSrc(choice);\nvar output : FragmentOutput;\noutput.color = textureSampleGrad(textureFront, samplerFront, choice, dpdx(input.fragUV), dpdy(input.fragUV));\nreturn output;\n}",
 	blendsBackground: false,
 	usesDepth: false,
 	extendBoxHorizontal: 0,
@@ -1319,7 +1319,7 @@ self["C3_Shaders"]["pixellate"] = {
 	preservesOpaqueness: false,
 	supports3dDirectRendering: false,
 	animated: false,
-	parameters: [["tilesize",0,"float"]]
+	parameters: [["scale",0,"float"]]
 };
 self["C3_Shaders"]["brightness"] = {
 	glsl: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform lowp float brightness;\nvoid main(void)\n{\nlowp vec4 front = texture2D(samplerFront, vTex);\nlowp float a = front.a;\nif (a != 0.0)\nfront.rgb /= front.a;\nfront.rgb += (brightness - 1.0);\nfront.rgb *= a;\ngl_FragColor = front;\n}",
@@ -1629,6 +1629,7 @@ self.C3_ExpressionFuncs = [
 		() => 0.001,
 		() => "Layer 0",
 		() => 0,
+		() => "MENU",
 		() => "HUD",
 		() => "quicksave",
 		p => {
@@ -1954,6 +1955,7 @@ self.C3_ExpressionFuncs = [
 			const f3 = p._GetNode(3).GetBoundMethod();
 			return () => and((and((and((and("DV: ", v0.GetValue()) + "\nFPS: "), f1()) + "\nGPU:"), f2()) + "\nCPU:"), f3());
 		},
+		() => 0.01,
 		() => 20,
 		() => 0.1,
 		p => {
