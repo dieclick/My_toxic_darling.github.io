@@ -4,9 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Toxic Darling</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet" />
+
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --ink: #1a1208;
@@ -23,16 +29,22 @@
       background-color: var(--paper);
       color: var(--ink);
       font-family: 'Courier Prime', monospace;
+
       display: flex;
-      align-items: left;
-      justify-content: left;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+
       min-height: 100vh;
-      overflow: hidden;
+
+      /* ✅ FIX: allow scrolling on mobile */
+      overflow-x: hidden;
+      overflow-y: auto;
+
       position: relative;
     }
 
-
-    /* Decorative corner lines */
+    /* Decorative border */
     body::after {
       content: '';
       position: fixed;
@@ -83,8 +95,7 @@
       width: 350px;
       height: 1px;
       background: var(--accent);
-      margin: 1rem auto;
-      margin-left: 0;
+      margin: 1rem 0;
       animation: expandW 0.8s 0.5s ease both;
       transform-origin: left;
     }
@@ -104,7 +115,6 @@
 
     .btn {
       display: inline-block;
-      font-family: 'Courier Prime', monospace;
       font-size: 0.8rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -114,9 +124,9 @@
       border: 1px solid var(--ink);
       padding: 1em 2.4em;
       position: relative;
-      transition: color 0.25s, background 0.25s;
+      transition: 0.25s;
       animation: fadeUp 1s 0.55s ease both;
-      margin: 0.1rem;
+      margin: 0.2rem 0.2rem 0.2rem 0;
     }
 
     .btn::after {
@@ -134,7 +144,6 @@
     .btn:hover {
       background: var(--accent);
       border-color: var(--accent);
-      color: var(--paper);
     }
 
     .btn:hover::after {
@@ -146,42 +155,49 @@
       font-size: 0.68rem;
       letter-spacing: 0.1em;
       color: rgba(26,18,8,0.25);
-      animation: fadeUp 1s 0.7s ease both;
       text-align: center;
+      animation: fadeUp 1s 0.7s ease both;
     }
 
-
-.photocapsule {
-  display: flex;             
-  justify-content: left;
-}
+    /* ✅ FIX: responsive images */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-top: 1rem;
+    }
 
   </style>
 </head>
+
 <body>
+
   <div class="container">
     <p class="eyebrow">LET YOURSELF FALL IN LOVE</p>
-    <h1>My Toxic<br/><em>Darling</em></h1>
+
+    <h1>My Toxic<br><em>Darling</em></h1>
+
     <div class="divider"></div>
+
     <p class="intro">
       My toxic darling is a college thesis game for a finals assignment for Digital Interactive Design.
-      The Investigation comes in form of a document explaining the process and investigation of the current climate
-      along toxic relationships in young couples.
+      The investigation comes in form of a document explaining the process and research around toxic relationships in young couples.
     </p>
-    <a class="btn" href="./game/index.html" target="_blank" rel="noopener">
-      Enter the Game
-    </a>
-    <a class="btn" href="https://docs.google.com/document/d/1zahBvPeYX7XudbdrYqYofioRd9I79O5Yqo79j1zNP2o/edit?usp=sharing" target="_blank" rel="noopener">
-      Enter the documentation
-    </a>
-    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSecf-Mt8tk8txe3VnAzO1R93vOU6qunO5n5TwCm5FfLthpOmw/viewform?usp=dialog" target="_blank" rel="noopener">
-      Answer the Query [Beta v0.8.2.0]
-    </a>
-    <p class="footnote">MACROHARD &nbsp;·&nbsp; 2026</p>
+
+    <a class="btn" href="./game/index.html" target="_blank">Enter the Game</a>
+    <a class="btn" href="https://docs.google.com/document/d/1zahBvPeYX7XudbdrYqYofioRd9I79O5Yqo79j1zNP2o/edit?usp=sharing" target="_blank">Documentation</a>
+    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSecf-Mt8tk8txe3VnAzO1R93vOU6qunO5n5TwCm5FfLthpOmw/viewform?usp=dialog" target="_blank">Answer the Query</a>
+
+    <p class="footnote">MACROHARD · 2026</p>
   </div>
-<div class="container">
-  <img src="https://i.ibb.co/hRvd10m3/Macrohard-Logo.png" alt="Screenshot">
-  <img src="QR.svg" alt="Código QR">
-</div>
+
+  <div class="container">
+    <!-- ✅ external image works -->
+    <img src="https://i.ibb.co/hRvd10m3/Macrohard-Logo.png" alt="Logo">
+
+    <!-- ✅ FIX THIS PATH if needed -->
+    <img src="./QR.svg" alt="Código QR">
+  </div>
+
 </body>
 </html>
