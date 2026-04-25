@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Toxic Darling</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet"/>
 
   <style>
     *, *::before, *::after {
@@ -21,30 +21,14 @@
       --muted: #7a6a55;
     }
 
-    html, body {
-      height: 100%;
-    }
-
     body {
-      background-color: var(--paper);
+      background: var(--paper);
       color: var(--ink);
       font-family: 'Courier Prime', monospace;
-
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-
       min-height: 100vh;
-
-      /* ✅ FIX: allow scrolling on mobile */
-      overflow-x: hidden;
-      overflow-y: auto;
-
-      position: relative;
+      padding: 2rem;
     }
 
-    /* Decorative border */
     body::after {
       content: '';
       position: fixed;
@@ -52,19 +36,21 @@
       border: 1px solid rgba(26,18,8,0.15);
       pointer-events: none;
       border-radius: 2%;
-      z-index: 99;
     }
 
-    .container {
-      text-align: left;
-      max-width: 560px;
-      padding: 3rem 2rem;
+    .layout {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .content {
+      max-width: 520px;
       animation: fadeUp 1s ease both;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
     }
 
     .eyebrow {
@@ -73,98 +59,99 @@
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 1.4rem;
-      animation: fadeUp 1s 0.1s ease both;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(2.6rem, 6vw, 4rem);
-      font-weight: 700;
       line-height: 1.1;
-      letter-spacing: -0.01em;
       margin-bottom: 0.3rem;
-      animation: fadeUp 1s 0.2s ease both;
     }
 
     h1 em {
-      font-style: italic;
       color: var(--accent);
+      font-style: italic;
     }
 
     .divider {
-      width: 350px;
+      width: 200px;
       height: 1px;
       background: var(--accent);
       margin: 1rem 0;
-      animation: expandW 0.8s 0.5s ease both;
-      transform-origin: left;
-    }
-
-    @keyframes expandW {
-      from { transform: scaleX(0); opacity: 0; }
-      to   { transform: scaleX(1); opacity: 1; }
     }
 
     .intro {
       font-size: 0.92rem;
-      line-height: 1.85;
+      line-height: 1.8;
       color: var(--muted);
-      margin-bottom: 2.8rem;
-      animation: fadeUp 1s 0.4s ease both;
+      margin-bottom: 2rem;
     }
 
     .btn {
       display: inline-block;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       text-decoration: none;
       color: var(--paper);
       background: var(--ink);
-      border: 1px solid var(--ink);
-      padding: 1em 2.4em;
+      padding: 1em 2em;
+      margin: 0.3rem 0.3rem 0.3rem 0;
       position: relative;
       transition: 0.25s;
-      animation: fadeUp 1s 0.55s ease both;
-      margin: 0.2rem 0.2rem 0.2rem 0;
-    }
-
-    .btn::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      right: -5px;
-      width: 100%;
-      height: 100%;
-      border: 1px solid var(--accent);
-      transition: transform 0.25s;
-      pointer-events: none;
     }
 
     .btn:hover {
       background: var(--accent);
-      border-color: var(--accent);
     }
 
-    .btn:hover::after {
-      transform: translate(3px, 3px);
+    .visuals {
+      text-align: center;
+      max-width: 260px;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+
+    .visuals p {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .visuals img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    .logo {
+      max-width: 140px;
+      margin: 0 auto;
+      opacity: 0.7;
     }
 
     .footnote {
       margin-top: 3rem;
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      color: rgba(26,18,8,0.25);
+      font-size: 0.65rem;
       text-align: center;
-      animation: fadeUp 1s 0.7s ease both;
+      color: rgba(26,18,8,0.3);
     }
 
-    /* ✅ FIX: responsive images */
-    img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin-top: 1rem;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .layout {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .visuals {
+        align-self: center;
+      }
     }
 
   </style>
@@ -172,33 +159,34 @@
 
 <body>
 
-  <div class="container">
-    <p class="eyebrow">LET YOURSELF FALL IN LOVE</p>
+  <div class="layout">
 
-    <h1>My Toxic<br><em>Darling</em></h1>
+    <div class="content">
+      <p class="eyebrow">LET YOURSELF FALL IN LOVE</p>
 
-    <div class="divider"></div>
+      <h1>My Toxic<br><em>Darling</em></h1>
 
-    <p class="intro">
-      My toxic darling is a college thesis game for a finals assignment for Digital Interactive Design.
-      The game is a visual novel in a romantic genre playable in all browsers and platforms, scan the code, play on your PC, tablet, or phone!
-      The investigation comes in form of a document exploring the process and research around toxic relationships in young couples.
-    </p>
+      <div class="divider"></div>
 
-    <a class="btn" href="./game/index.html" target="_blank">Enter the Game</a>
-    
-    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSecf-Mt8tk8txe3VnAzO1R93vOU6qunO5n5TwCm5FfLthpOmw/viewform?usp=dialog" target="_blank">Answer the Query [Beta]</a>
-    <a class="btn" href="https://dieclick.framer.website">Visit DIECLICK</a>
-    <a class="btn" href="mailto:nicoguzguz16@gmail.com">Mail NICOTINE</a>
-    <a class="btn" href="mailto:mnstar01art@gmail.com">Mail MOONSTAR</a>
-    <a class="btn" href="mailto:bluencleart@gmail.com">Mail BLUENCLEAR</a>
+      <p class="intro">
+        My Toxic Darling is a college thesis game for Digital Interactive Design.
+        A romantic visual novel playable across all platforms.
+        Scan the code or play directly in your browser.
+      </p>
 
-    <p class="footnote">MACROHARD · 2026</p>
-  </div>
+      <a class="btn" href="./game/index.html" target="_blank">Enter the Game</a>
+      <a class="btn" href="#">Answer the Query</a>
+      <a class="btn" href="#">Visit DIECLICK</a>
 
-  <div class="container">
-    <img src="https://i.ibb.co/hRvd10m3/Macrohard-Logo.png" alt="Logo">
-    <img src="./QR.svg" alt="Código QR">
+      <p class="footnote">MACROHARD · 2026</p>
+    </div>
+
+    <div class="visuals">
+      <p>SCAN TO PLAY</p>
+      <img src="./QR.svg" alt="QR Code">
+      <img src="https://i.ibb.co/hRvd10m3/Macrohard-Logo.png" class="logo" alt="Logo">
+    </div>
+
   </div>
 
 </body>
